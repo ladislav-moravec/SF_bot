@@ -5,18 +5,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+
 driver = webdriver.Firefox()
 
-driver.get("https://w2.sfgame.net/")
+driver.get("https://sfgame.cz/")
 # all_window_handles = driver.window_handles
 # driver.switch_to.window(all_window_handles[0])
 
 try:
     cookies = WebDriverWait(driver, 50).until(
-        EC.presence_of_element_located((By.ID, "onetrust-accept-btn-handler"))
+        EC.presence_of_element_located((By.ID, "playa-cookie-consent-allow"))
     )
     cookies.click()
-    element = driver.find_element_by_css_selector("#webgl-element")
+
+    login_button = WebDriverWait(driver, 50).until(
+        EC.presence_of_element_located((By.ID, "login"))
+    )
+    login_button.click()
+
+
+
     element_text = driver.execute_script("return arguments[0].innerText;", element)
     print(element_text)
 finally:
